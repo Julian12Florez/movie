@@ -44,7 +44,7 @@ export default {
   methods: {
     async login() {
       try {
-        let response = await axios.post("api/login", {
+        let response = await axios.post("api/auth/login", {
           nickname: this.username,
           password:this.password
         });
@@ -53,9 +53,9 @@ export default {
           this.$router.push("allMovies");
         }
       } catch (error) {
-        console.log("Error");
+        console.log("Error redirect");
       }
-    }
+    },
   },
   computed: {}
 };

@@ -90,7 +90,7 @@
         });
         this.$router.push("/login");
       } catch (error) {
-        console.log("Error");
+        console.log("Error login");
       }
     }
     },

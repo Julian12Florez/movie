@@ -70,9 +70,7 @@ class MovieController extends Controller
      */
     public function update(Request $request, Movie $movie)
     {
-        // Movie::findOrFail($id)->update($request->all())
         Movie::update($request->all());
-        //
     }
 
     /**

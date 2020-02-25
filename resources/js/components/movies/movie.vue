@@ -47,7 +47,6 @@
                   <v-text-field
                     v-model="sinopsis"
                     label="Sinopsis"
-                    required
                   ></v-text-field>
                   <v-text-field
                     v-model="year_movie"
@@ -111,6 +110,7 @@ import axios from "axios";
           let response = await axios.get("api/movies/movies");
           this.items=response.data;
         } catch (error) {
+         this.$router.push("/login")
           console.log("Error");
         }
     },
@@ -122,12 +122,14 @@ import axios from "axios";
           sinopsis: this.sinopsis,
           year: this.year_movie
         });
+        
          this.getMovies()
          this.dialog = false
       } catch (error) {
-        console.log("Error");
+        console.log("Error login");
       }
-    }
+    },
+    // this.$refs.form.reset()
     },
     computed: {
 

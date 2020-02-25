@@ -1986,7 +1986,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("api/login", {
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("api/auth/login", {
                   nickname: _this.username,
                   password: _this.password
                 });
@@ -2006,7 +2006,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 7:
                 _context.prev = 7;
                 _context.t0 = _context["catch"](0);
-                console.log("Error");
+                console.log("Error redirect");
 
               case 10:
               case "end":
@@ -2043,7 +2043,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
 //
 //
 //
@@ -2168,15 +2167,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 4:
                 response = _context.sent;
                 _this.items = response.data;
-                _context.next = 11;
+                _context.next = 12;
                 break;
 
               case 8:
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
+
+                _this.$router.push("/login");
+
                 console.log("Error");
 
-              case 11:
+              case 12:
               case "end":
                 return _context.stop();
             }
@@ -2216,7 +2218,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 9:
                 _context2.prev = 9;
                 _context2.t0 = _context2["catch"](0);
-                console.log("Error");
+                console.log("Error login");
 
               case 12:
               case "end":
@@ -2225,7 +2227,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee2, null, [[0, 9]]);
       }))();
-    }
+    } // this.$refs.form.reset()
+
   },
   computed: {}
 }, "mounted", function mounted() {
@@ -2364,7 +2367,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 7:
                 _context.prev = 7;
                 _context.t0 = _context["catch"](0);
-                console.log("Error");
+                console.log("Error login");
 
               case 10:
               case "end":
@@ -38758,7 +38761,7 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _c("v-text-field", {
-                        attrs: { label: "Sinopsis", required: "" },
+                        attrs: { label: "Sinopsis" },
                         model: {
                           value: _vm.sinopsis,
                           callback: function($$v) {
