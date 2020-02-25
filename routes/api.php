@@ -16,8 +16,13 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+// Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', 'Auth\LoginController@login');
+// });
 Route::group(['prefix' => 'app'], function () {
     Route::resource('register',"UserController");
 });
 
+Route::group(['prefix' => 'movies','middleware' => 'jwt.auth'], function () {
+    Route::resource('movies', 'MovieController');
+});

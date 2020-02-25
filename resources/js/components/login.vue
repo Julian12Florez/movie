@@ -44,10 +44,14 @@ export default {
   methods: {
     async login() {
       try {
-        let response = await axios.post("/api/login", {
-          username: this.username
+        let response = await axios.post("api/login", {
+          nickname: this.username,
+          password:this.password
         });
-        this.$router.push("index");
+        if (response.data.status) {
+          localStorage.setItem("token",response.data.token)
+          this.$router.push("allMovies");
+        }
       } catch (error) {
         console.log("Error");
       }

@@ -28,7 +28,8 @@ Vue.use(VueRouter);
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 // import example from "./components/ExampleComponent.vue"
 import login from "./components/login.vue"
-import register from "./components/users/register.vue"
+import registerUser from "./components/users/register.vue"
+import allMovies from "./components/movies/movie.vue"
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -42,7 +43,12 @@ let routes = [{
     {
         path: '/',
         name: 'register',
-        component: register
+        component: registerUser
+    },
+    {
+        path: '/allMovies',
+        name: 'movie',
+        component: allMovies
     }
 ]
 
