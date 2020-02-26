@@ -36,7 +36,12 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        Movie::create($request->all());
+        $status=Movie::create($request->all());
+        if ($status) {
+            return response()->json(["status" => $status, "msg" => "Proceso finalizado satisfactoriamente"]);
+        } else {
+            return response()->json(["status" => $status, "msg" => "Error"]);
+        }
     }
 
     /**
@@ -58,7 +63,7 @@ class MovieController extends Controller
      */
     public function edit(Movie $movie)
     {
-        $movie->update($request->all());
+        $movie->update($movie->all());
     }
 
     /**
@@ -70,7 +75,12 @@ class MovieController extends Controller
      */
     public function update(Request $request, Movie $movie)
     {
-        Movie::update($request->all());
+        $status=Movie::findOrFail($movie->id)->update($request->all());
+        if ($status) {
+            return response()->json(["status" => $status, "msg" => "Proceso finalizado satisfactoriamente"]);
+        } else {
+            return response()->json(["status" => $status, "msg" => "Error"]);
+        }
     }
 
     /**
@@ -81,6 +91,11 @@ class MovieController extends Controller
      */
     public function destroy(Movie $movie)
     {
-        $movie->delete();
+        $status=Movie::findOrfail($movie->id)->delete();
+        if ($status) {
+            return response()->json(["status" => $status, "msg" => "La pelicula fue excluida de la lista"]);
+        } else {
+            return response()->json(["status" => $status, "msg" => "Error"]);
+        }
     }
 }

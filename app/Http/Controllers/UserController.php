@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -35,7 +36,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        User::create($request->all());
+        $status=User::create($request->all());
+        if ($status) {
+            return response()->json(["status" => true, "msg" => "Usuario registrado"]);
+        } else {
+            return response()->json(["status" => false, "msg" => "Error"]);
+        }
     }
 
     /**

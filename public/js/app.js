@@ -1998,17 +1998,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   localStorage.setItem("token", response.data.token);
 
                   _this.$router.push("allMovies");
+                } else {
+                  alertify.error("Error en la autenticación");
                 }
 
-                _context.next = 10;
+                _context.next = 11;
                 break;
 
               case 7:
                 _context.prev = 7;
                 _context.t0 = _context["catch"](0);
+                alertify.error("Error en la autenticación");
                 console.log("Error redirect");
 
-              case 10:
+              case 11:
               case "end":
                 return _context.stop();
             }
@@ -2121,6 +2124,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = (_defineProperty({
   name: 'movie',
@@ -2128,6 +2148,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {},
   data: function data() {
     return {
+      titleRules: [function (v) {
+        return !!v || "El titulo es requerido";
+      }],
       title: '',
       sinopsis: '',
       year_movie: '',
@@ -2143,8 +2166,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, {
         text: 'Year',
         value: 'year'
+      }, {
+        text: 'Actions',
+        value: 'action',
+        sortable: false
       }],
-      items: []
+      items: [],
+      update_action: false,
+      id: '',
+      header_title: 'Register form',
+      action: ''
     };
   },
   methods: {
@@ -2186,49 +2217,183 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee, null, [[0, 8]]);
       }))();
     },
-    register: function register() {
+    saveMovies: function saveMovies() {
       var _this2 = this;
 
       return _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.prev = 0;
                 axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
-                _context2.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("api/movies/movies", {
-                  title: _this2.title,
-                  sinopsis: _this2.sinopsis,
-                  year: _this2.year_movie
-                });
 
-              case 4:
-                response = _context2.sent;
+                if (_this2.update_action) {
+                  _context2.next = 8;
+                  break;
+                }
 
-                _this2.getMovies();
+                _this2.action = "api/movies/movies";
+                _context2.next = 6;
+                return _this2.storeMovies();
 
-                _this2.dialog = false;
-                _context2.next = 12;
+              case 6:
+                _context2.next = 11;
                 break;
 
-              case 9:
-                _context2.prev = 9;
+              case 8:
+                _this2.action = "api/movies/movies/".concat(_this2.id);
+                _context2.next = 11;
+                return _this2.updateMovies();
+
+              case 11:
+                if (_this2.response.data.status) {
+                  _this2.getMovies();
+
+                  _this2.dialog = false;
+                  alertify.success("".concat(_this2.response.data.msg));
+                  _this2.update_action = false;
+                  _this2.header_title = "Register form";
+
+                  _this2.clearForm();
+                }
+
+                _context2.next = 18;
+                break;
+
+              case 14:
+                _context2.prev = 14;
                 _context2.t0 = _context2["catch"](0);
+                alertify.warning("Ocurrio un error en el proceso");
                 console.log("Error login");
 
-              case 12:
+              case 18:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 9]]);
+        }, _callee2, null, [[0, 14]]);
       }))();
-    } // this.$refs.form.reset()
+    },
+    editItem: function editItem(item) {
+      var _this3 = this;
 
+      return _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _this3.update_action = true;
+                _this3.id = item.id;
+                _this3.title = item.title;
+                _this3.sinopsis = item.sinopsis;
+                _this3.year_movie = item.year;
+                _this3.header_title = "Update form";
+                _this3.dialog = true;
+
+              case 7:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    storeMovies: function storeMovies() {
+      var _this4 = this;
+
+      return _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(_this4.action, {
+                  title: _this4.title,
+                  sinopsis: _this4.sinopsis,
+                  year: _this4.year_movie
+                });
+
+              case 2:
+                _this4.response = _context4.sent;
+
+              case 3:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    updateMovies: function updateMovies() {
+      var _this5 = this;
+
+      return _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.patch(_this5.action, {
+                  title: _this5.title,
+                  sinopsis: _this5.sinopsis,
+                  year: _this5.year_movie
+                });
+
+              case 2:
+                _this5.response = _context5.sent;
+
+              case 3:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
+    },
+    deleteItem: function deleteItem(item) {
+      var _this6 = this;
+
+      return _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
+                _context6.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("api/movies/movies/".concat(item.id));
+
+              case 3:
+                response = _context6.sent;
+
+                if (response.data.status) {
+                  _this6.getMovies();
+
+                  alertify.warning(response.data.msg);
+                } else {}
+
+              case 5:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    clearForm: function clearForm() {
+      this.title = "", this.sinopsis = "", this.year_movie = "";
+    }
   },
   computed: {}
 }, "mounted", function mounted() {
@@ -2303,11 +2468,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'register',
   props: [],
@@ -2326,12 +2486,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return !!v || 'El nombre es obligatorio';
       }, function (v) {
         return v.length >= 5 || 'El nombre debe contener minimo 5 caracteres';
+      }, function (v) {
+        return /^[a-zA-Z0-9_-]+$/.test(v) || "El nickname solo debe contener letras,número y/o guion bajo";
       }],
       password: '',
       passRules: [function (value) {
         return !!value || 'Contraseña Requerida';
       }, function (v) {
-        return v.length >= 8 || 'Min 8 caracteres';
+        return v.length >= 8 || 'Minimmo 8 caracteres';
+      }, function (v) {
+        return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(v) || 'la contraseña debe contener una mayÚscula y un nÚmero';
       }]
     };
   },
@@ -2359,22 +2523,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 3:
                 response = _context.sent;
 
+                if (response.status) {
+                  alertify.success("usuario registrado correctamente");
+                }
+
                 _this.$router.push("/login");
 
-                _context.next = 10;
+                _context.next = 12;
                 break;
 
-              case 7:
-                _context.prev = 7;
+              case 8:
+                _context.prev = 8;
                 _context.t0 = _context["catch"](0);
+                alertify.error("Ocurrio un error");
                 console.log("Error login");
 
-              case 10:
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 7]]);
+        }, _callee, null, [[0, 8]]);
       }))();
     }
   }
@@ -38673,7 +38842,47 @@ var render = function() {
                                   headers: _vm.headers,
                                   items: _vm.items,
                                   "items-per-page": 5
-                                }
+                                },
+                                scopedSlots: _vm._u([
+                                  {
+                                    key: "item.action",
+                                    fn: function(ref) {
+                                      var item = ref.item
+                                      return [
+                                        _c(
+                                          "v-icon",
+                                          {
+                                            staticClass: "mr-2",
+                                            attrs: { small: "" },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.editItem(item)
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("\n          edit\n        ")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-icon",
+                                          {
+                                            attrs: { small: "" },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.deleteItem(item)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n          delete\n        "
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ])
                               })
                             ],
                             1
@@ -38695,7 +38904,7 @@ var render = function() {
                                     }
                                   }
                                 },
-                                [_vm._v("Register movie ")]
+                                [_vm._v("Register form")]
                               )
                             ],
                             1
@@ -38736,7 +38945,7 @@ var render = function() {
                 "v-toolbar",
                 { attrs: { color: "primary", dark: "", flat: "" } },
                 [
-                  _c("v-toolbar-title", [_vm._v("Register form")]),
+                  _c("v-toolbar-title", [_vm._v(_vm._s(_vm.header_title))]),
                   _vm._v(" "),
                   _c("v-spacer")
                 ],
@@ -38746,44 +38955,50 @@ var render = function() {
               _c(
                 "v-card-text",
                 [
-                  _c(
-                    "v-form",
-                    [
-                      _c("v-text-field", {
-                        attrs: { label: "Title", required: "" },
-                        model: {
-                          value: _vm.title,
-                          callback: function($$v) {
-                            _vm.title = $$v
+                  _c("v-form", [
+                    _c(
+                      "form",
+                      [
+                        _c("v-text-field", {
+                          attrs: {
+                            rules: _vm.titleRules,
+                            label: "Title",
+                            required: ""
                           },
-                          expression: "title"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("v-text-field", {
-                        attrs: { label: "Sinopsis" },
-                        model: {
-                          value: _vm.sinopsis,
-                          callback: function($$v) {
-                            _vm.sinopsis = $$v
-                          },
-                          expression: "sinopsis"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("v-text-field", {
-                        attrs: { label: "Year", required: "" },
-                        model: {
-                          value: _vm.year_movie,
-                          callback: function($$v) {
-                            _vm.year_movie = $$v
-                          },
-                          expression: "year_movie"
-                        }
-                      })
-                    ],
-                    1
-                  )
+                          model: {
+                            value: _vm.title,
+                            callback: function($$v) {
+                              _vm.title = $$v
+                            },
+                            expression: "title"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("v-text-field", {
+                          attrs: { label: "Sinopsis" },
+                          model: {
+                            value: _vm.sinopsis,
+                            callback: function($$v) {
+                              _vm.sinopsis = $$v
+                            },
+                            expression: "sinopsis"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("v-text-field", {
+                          attrs: { label: "Year", required: "" },
+                          model: {
+                            value: _vm.year_movie,
+                            callback: function($$v) {
+                              _vm.year_movie = $$v
+                            },
+                            expression: "year_movie"
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ])
                 ],
                 1
               ),
@@ -38799,11 +39014,11 @@ var render = function() {
                       attrs: { color: "primary darken-1", text: "" },
                       on: {
                         click: function($event) {
-                          return _vm.register()
+                          return _vm.saveMovies()
                         }
                       }
                     },
-                    [_vm._v("\r\n              Save\r\n            ")]
+                    [_vm._v("\n              Save\n            ")]
                   )
                 ],
                 1
@@ -38892,17 +39107,6 @@ var render = function() {
                                         _vm.name = $$v
                                       },
                                       expression: "name"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("v-text-field", {
-                                    attrs: { label: "E-mail", required: "" },
-                                    model: {
-                                      value: _vm.email,
-                                      callback: function($$v) {
-                                        _vm.email = $$v
-                                      },
-                                      expression: "email"
                                     }
                                   }),
                                   _vm._v(" "),

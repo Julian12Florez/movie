@@ -51,8 +51,11 @@ export default {
         if (response.data.status) {
           localStorage.setItem("token",response.data.token)
           this.$router.push("allMovies");
+        }else{
+            alertify.error("Error en la autenticación")
         }
       } catch (error) {
+          alertify.error("Error en la autenticación")
         console.log("Error redirect");
       }
     },

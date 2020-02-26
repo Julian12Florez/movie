@@ -10,6 +10,8 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use JWTAuth;
 
+use Illuminate\Support\Facades\Hash;
+
 class LoginController extends Controller
 {
     /*
@@ -45,7 +47,6 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        // dd($request);
         $user = User::where('nickname',$request["nickname"])->where('password',$request["password"])->first();
         if ($user){
             $user_auth=JWTAuth::fromUser($user);

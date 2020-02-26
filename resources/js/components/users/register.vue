@@ -18,11 +18,6 @@
                     required
                   ></v-text-field>
                   <v-text-field
-                    v-model="email"
-                    label="E-mail"
-                    required
-                  ></v-text-field>
-                  <v-text-field
                     v-model="nickname"
                     :rules="nicknameRules"
                     label="nickname"
@@ -71,13 +66,15 @@
         nicknameRules: [
           v => !!v || 'El nombre es obligatorio',
           v => v.length >= 5 || 'El nombre debe contener minimo 5 caracteres',
+          v => /^[a-zA-Z0-9_-]+$/.test(v) || "El nickname solo debe contener letras,número y/o guion bajo"
         ],
         password: '',
         passRules: [
             value => !!value || 'Contraseña Requerida',
-            v => v.length >= 8 || 'Min 8 caracteres',
+            v => v.length >= 8 || 'Minimmo 8 caracteres',
+            v=> /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(v) || 'la contraseña debe contener una mayÚscula y un nÚmero'
         ]
-    } 
+    }
     },
     methods: {
       async register() {
@@ -88,13 +85,17 @@
           password: this.password,
           email:`${this.nickname}@test.com`
         });
+         if(response.status){
+            alertify.success(`usuario registrado correctamente`)
+        }
         this.$router.push("/login");
       } catch (error) {
+            alertify.error(`Ocurrio un error`)
         console.log("Error login");
       }
     }
     },
-   
+
 }
 
 
