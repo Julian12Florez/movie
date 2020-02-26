@@ -29,6 +29,8 @@
     
 # migraciones a la db 
 
+    crear una DB en mysql con el nombre "app"
+
     Ubicar la terminal en la raiz del proyecto posteriormente ejecutar
     php artisan migrate
 
